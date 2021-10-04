@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package myclasses;
+package Entity;
 
 /**
  *
@@ -39,5 +39,14 @@ public class Reader {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "Reader{" + "firstname=" + firstname
+                + ",\n  lastname=" + lastname
+                + ",\n  phone=" + phone
+                + '}';
+    }
+    
     
 }

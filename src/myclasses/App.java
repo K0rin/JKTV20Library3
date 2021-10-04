@@ -5,13 +5,18 @@
  */
 package myclasses;
 
+import Entity.Reader;
+import Entity.Book;
+import Entity.Autor;
+import Entity.History;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  *
  * @author pupil
  */
 public class App {
-    
-    Book book;
     
     public App() {
         
@@ -46,6 +51,18 @@ public class App {
         reader1.setFirstname("Ivan");
         reader1.setLastname("Ivanov");
         reader1.setPhone("4564545345");
+        
+        History history1 = new History();
+        history1.setBook(book1);
+        history1.setReader(reader1);
+        Calendar c = new GregorianCalendar();
+        
+        history1.setGivenDate(c.getTime());
+        
+        System.out.println("History = "+history1.toString());
+        System.out.println(" ------------------------------ ");
+        history1.setReturnDate(c.getTime());
+        System.out.println("history 1 = "+history1.toString());
     }
     
 }

@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package myclasses;
+package Entity;
+
+import Entity.Autor;
+import java.util.Arrays;
 
 /**
  *
@@ -41,6 +44,14 @@ public class Book {
     public void setPublication_year(int publication_year) {
         this.publication_year = publication_year;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" + "caption=" + caption
+                + ",\n author=" + Arrays.toString(author)
+                + ",\n publication_year=" + publication_year
+                + "\n}";
+    }
     
-    
+   
 }
