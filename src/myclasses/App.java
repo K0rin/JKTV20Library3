@@ -21,6 +21,7 @@ public class App {
     Scanner scanner = new Scanner(System.in);
     Book[] books = new Book[10];
     Reader[] readers = new Reader[10];
+    History[] histories = new History[10];
     
     
     
