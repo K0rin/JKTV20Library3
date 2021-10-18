@@ -9,6 +9,7 @@ import Entity.Reader;
 import Entity.Book;
 import Entity.Autor;
 import Entity.History;
+import File_Keeper.File_Keeper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -24,11 +25,13 @@ public class App {
     List<Book> books = new ArrayList<>();
     List<Reader> readers = new ArrayList<>();
     List<History> histories = new ArrayList<>();
-    
-    
+    File_Keeper file_keeper = new File_Keeper();
     
     public App() {
+        File_Keeper file_keeper = new File_Keeper();
+        books = file_keeper.loadBooks();
     }
+    
     public void run() {
         String repeat = "y";
         do{
@@ -50,6 +53,7 @@ public class App {
                 case 1:
                     System.out.println("Добавление книги");
                             books.add(addBook());
+                            file_keeper.saveBooks(books);
                             break; 
                 case 2:
                     System.out.println("Список книг: ");
