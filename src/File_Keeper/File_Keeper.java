@@ -64,23 +64,75 @@ public class File_Keeper implements Keeping{
 
     @Override
     public void saveReaders(List<Reader> readers) {
-        
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = new FileOutputStream("readers");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(readers);
+            oos.flush();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "нет файла readers", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
+        }
     }
 
     @Override
     public List<Reader> loadReaders() {
         List<Reader> loadReaders = new ArrayList<>();
+        
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = new FileInputStream("readers");
+            ois = new ObjectInputStream(fis);
+            loadReaders = (List<Reader>) ois.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "Нет файла readers", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "Ошибка ввода", ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "класс не найден", ex);
+        }
+        
         return loadReaders;
     }
 
     @Override
     public void saveHistories(List<History> histories) {
-        
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = new FileOutputStream("histories");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(histories);
+            oos.flush();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "нет файла histories", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
+        }
     }
 
     @Override
     public List<History> loadHistories() {
         List<History> loadHistories = new ArrayList<>();
+        
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = new FileInputStream("histories");
+            ois = new ObjectInputStream(fis);
+            loadHistories = (List<History>) ois.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "Нет файла histories", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "Ошибка ввода", ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(File_Keeper.class.getName()).log(Level.SEVERE, "класс не найден", ex);
+        }
+        
         return loadHistories;
     }
     
