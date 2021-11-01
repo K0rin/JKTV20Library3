@@ -9,6 +9,7 @@ import Entity.Autor;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -18,10 +19,28 @@ public class Book implements Serializable {
     private String caption;
     private List<Autor> author;
     private int publication_year;
+    private int quantity;
+    private int count;
     
     public Book() {
         
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }        
 
     public String getCaption() {
         return caption;
@@ -49,11 +68,54 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Book{" + "caption=" + caption
-                + ",\n author=" + Arrays.toString(author.toArray())
-                + ",\n publication_year=" + publication_year
-                + "\n}";
+        return "Book{" 
+                + "caption=" + caption 
+                + ", author=" + Arrays.toString(author.toArray()) 
+                + ", publication_year=" + publication_year 
+                + ", quantity=" + quantity + 
+                ", count=" + count + 
+                '}';
     }
-    
-   
+
+    @Override
+    public int hashCode(){
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.caption);
+        hash = 97 * hash + Objects.hashCode(this.author);
+        hash = 97 * hash + this.publication_year;
+        hash = 97 * hash + this.quantity;
+        hash = 97 * hash + this.count;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Book other = (Book) obj;
+        if (this.publication_year != other.publication_year) {
+            return false;
+        }
+        if (this.quantity != other.quantity) {
+            return false;
+        }
+        if (this.count != other.count) {
+            return false;
+        }
+        if (!Objects.equals(this.caption, other.caption)) {
+            return false;
+        }
+        if (!Objects.equals(this.author, other.author)) {
+            return false;
+        }
+        return true;
+    }
+       
 }
