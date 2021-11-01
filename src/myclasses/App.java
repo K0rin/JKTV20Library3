@@ -10,11 +10,18 @@ import Entity.Book;
 import Entity.Autor;
 import Entity.History;
 import File_Keeper.File_Keeper;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -26,6 +33,7 @@ public class App {
     List<Reader> readers = new ArrayList<>();
     List<History> histories = new ArrayList<>();
     File_Keeper file_keeper = new File_Keeper();
+    private Date LocalDate;
     
     public App() {
         File_Keeper file_keeper = new File_Keeper();
@@ -126,9 +134,9 @@ public class App {
         file_keeper.saveReaders(readers);
     }
     
-    private void printGivenBook(){
+    private Set<Integer> printGivenBook(){
         System.out.println("Список выданных книг: ");
-        int n = 0;
+        Set<Integer> setNumberGivenBooks = new HashSet<>();
         for (int i = 0; i < histories.size(); i++) {
             if(histories.get(i) != null 
                     && histories.get(i).getReturnDate() == null
@@ -141,13 +149,14 @@ public class App {
                         histories.get(i).getReader().getFirstname(),
                         histories.get(i).getReader().getLastname()
                 );
-                n++;
+                setNumberGivenBooks.add(i+1);
                 
             }
         }
-        if (n<1){
+        if (setNumberGivenBooks.isEmpty()){
             System.out.println("Выданных книг нет");
         }
+        return setNumberGivenBooks;
     }
     
     private void addHistory(){
@@ -162,12 +171,22 @@ public class App {
              v history инициировать поле reader объектом который лежит в массиве reader[readerNumber-1]
             Получить текущую дату и положить ее в поле history givenDate
         */
-        
-        System.out.println("Список книг в библиотеке");
-        printListBooks();
-        System.out.println("Введите номер книги");
-        int bookNumber = scanner.nextInt(); scanner.nextLine();
+        Set<Integer> setNumbersBooks = printListBooks();
+        if(setNumbersBooks.isEmpty()){
+            return;
+        }
+        int bookNumber;
+        do{
+            System.out.print("Введите номер книги");
+            String strBookNumber = scanner.nextLine();
+            try{
+                bookNumber = Integer.parseInt(strBookNumber);
+            }catch (Exception e){
+                bookNumber = 0;
+            }
+        }while(!setNumbersBooks.contains(bookNumber));
         history.setBook(books.get(bookNumber-1));
+        System.out.println();
         System.out.println("Список читателей");
         printListReaders();
         System.out.println("Введите номер читателя");
@@ -181,9 +200,10 @@ public class App {
         file_keeper.saveHistories(histories);
     }
 
-    private void printListBooks() {
+    private Set<Integer> printListBooks() {
         System.out.println("Список книг: ");
         books = file_keeper.loadBooks();
+        Set<Integer> setNumbersBooks = new HashSet<>();
         for(int i = 0; i < books.size(); i++){
             StringBuilder cbAuthors = new StringBuilder();
             for (int j = 0; j < books.get(i).getAuthor().size(); j++) {
@@ -198,8 +218,28 @@ public class App {
                         ,books.get(i).getCaption()
                         ,cbAuthors.toString()
                         ,books.get(i).getCount());
+                setNumbersBooks.add(i+1);
+            }else if(books.get(i) != null){
+                System.out.printf("%d. %s. %s Нет в наличии. Вернется в: %s%n"
+                        ,i+1
+                        ,books.get(i).getCaption()
+                        ,cbAuthors.toString()
+                        ,getReturnDate(books.get(i)));
             }
         }
+        return setNumbersBooks;
+    }
+    
+    private String getReturnDate(Book book){
+        for (int i = 0; i < histories.size(); i++) {
+            if(book.getCaption().equals(histories.get(i).getBook().getCaption())){
+                LocalDate localGivenDate = histories.get(i).getGivenDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                localGivenDate = localGivenDate.plusDays(14);
+                return localGivenDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            }
+        }
+        
+        return "";
     }
 
     private void printListReaders() {
@@ -214,9 +254,21 @@ public class App {
 
     private void returnBook() {
         System.out.println("Вернуть книгу: ");
-        printGivenBook();
-        System.out.print("Выберите возвращаемую книгу: ");
-        int historyNumber = scanner.nextInt(); scanner.nextLine();
+        Set<Integer> numbersGivenBooks = printGivenBook();
+        if(numbersGivenBooks.isEmpty()){
+            return;
+        }
+        
+        int historyNumber;
+        do{
+            System.out.print("Выберите возвращаемую книгу: ");
+            String strSistoryNumber = scanner.nextLine();
+            try {
+                 historyNumber = Integer.parseInt(strSistoryNumber);
+            }catch (Exception e){
+                historyNumber = 0;
+            }
+        }while(!numbersGivenBooks.contains(historyNumber));
         Calendar c = new GregorianCalendar();
         histories.get(historyNumber-1).setReturnDate(c.getTime());
         

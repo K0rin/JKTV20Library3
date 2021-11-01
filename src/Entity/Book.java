@@ -78,13 +78,13 @@ public class Book implements Serializable {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.caption);
-        hash = 97 * hash + Objects.hashCode(this.author);
-        hash = 97 * hash + this.publication_year;
-        hash = 97 * hash + this.quantity;
-        hash = 97 * hash + this.count;
+        hash = 67 * hash + Objects.hashCode(this.caption);
+        hash = 67 * hash + Objects.hashCode(this.author);
+        hash = 67 * hash + this.publication_year;
+        hash = 67 * hash + this.quantity;
+        hash = 67 * hash + this.count;
         return hash;
     }
 
@@ -117,5 +117,7 @@ public class Book implements Serializable {
         }
         return true;
     }
+
+
        
 }
