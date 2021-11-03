@@ -92,13 +92,39 @@ public class App {
             Book book = new Book();
             System.out.print("Введите название книги: ");
             book.setCaption(scanner.nextLine());
-            System.out.print("Введите год издания: ");
-            book.setPublication_year(scanner.nextInt()); scanner.nextLine();
-            System.out.print("Введите количество экземпляров: ");
-            book.setQuantity(scanner.nextInt()); scanner.nextLine();
+            int year;
+            do{
+                System.out.print("Введите год издания: ");
+                String strYear = scanner.nextLine();
+                try{                   
+                    year = Integer.parseInt(strYear);
+                    book.setPublication_year(year);
+                }catch (Exception e) {
+                    year = 0;
+                }
+            }while(year == 0);
+            int quantity;
+            do{
+                System.out.print("Введите количество экземпляров: ");
+                String strQuantity = scanner.nextLine();
+                try{
+                    quantity = Integer.parseInt(strQuantity);
+                    book.setQuantity(quantity);
+                }catch (Exception e){
+                    quantity = 0;
+                }
+            }while(quantity == 0);
             book.setCount(book.getQuantity());
-            System.out.print("Сколько авторов у книги: ");
-            int countAutor = scanner.nextInt(); scanner.nextLine();  
+            int countAutor;
+            do{
+                System.out.print("Сколько авторов у книги: ");
+                String strCountAuthors = scanner.nextLine();
+                try{
+                    countAutor = Integer.parseInt(strCountAuthors); 
+                }catch (Exception e){
+                    countAutor = 0;
+                }
+            }while(countAutor == 0);  
             List<Autor> autors = new ArrayList<>();
             for (int i = 0; i < countAutor; i++) {
                 System.out.println("Добавление автора "+(i+1));
@@ -107,12 +133,39 @@ public class App {
                 autor.setName(scanner.nextLine());
                 System.out.print("Фамилия автора: ");
                 autor.setLastname(scanner.nextLine());
-                System.out.print("год рождения автора: ");
-                autor.setYear(scanner.nextInt()); scanner.nextLine();
+                int yearAuthor;
+                do{
+                    System.out.print("год рождения автора: ");
+                    String strAuthorYear = scanner.nextLine();
+                try{
+                    yearAuthor = Integer.parseInt(strAuthorYear);
+                    autor.setYear(yearAuthor);
+                }catch (Exception e){
+                    yearAuthor = 0;
+                }
+                }while(yearAuthor == 0);
+                int dayAuthor;
+                do{
                 System.out.print("день рождения автора: ");
-                autor.setBirthday(scanner.nextInt()); scanner.nextLine();
-                System.out.print("Месяц рождения автора: ");
-                autor.setMonth(scanner.nextInt()); scanner.nextLine();
+                    String strAuthorDay = scanner.nextLine();
+                    try{
+                        dayAuthor = Integer.parseInt(strAuthorDay);
+                        autor.setBirthday(dayAuthor);
+                    }catch (Exception e){
+                        dayAuthor = 0;
+                    }
+                }while(dayAuthor == 0);
+                int monthAuthor;
+                do{
+                    System.out.print("Месяц рождения автора: ");
+                    String strAuthorMonth = scanner.nextLine();
+                try{
+                    monthAuthor = Integer.parseInt(strAuthorMonth);
+                    autor.setMonth(monthAuthor);
+                }catch (Exception e){
+                    monthAuthor = 0;
+                }
+                }while(monthAuthor == 0);
                 autors.add(autor);
             }
             book.setAuthor(autors);
@@ -188,9 +241,17 @@ public class App {
         history.setBook(books.get(bookNumber-1));
         System.out.println();
         System.out.println("Список читателей");
-        printListReaders();
-        System.out.println("Введите номер читателя");
-        int readerNumber = scanner.nextInt(); scanner.nextLine();
+        Set<Integer> setNumbersReaders = printListReaders();
+        int readerNumber;
+        do{
+            System.out.println("Введите номер читателя");
+            String strreaderNumber = scanner.nextLine();
+            try {
+                readerNumber = Integer.parseInt(strreaderNumber);
+            }catch (Exception e) {
+                readerNumber = 0;
+            }
+        }while(!setNumbersReaders.contains(readerNumber));
         history.setReader(readers.get(readerNumber-1));
         Calendar c = new GregorianCalendar(); 
         history.setGivenDate(c.getTime());
@@ -242,14 +303,15 @@ public class App {
         return "";
     }
 
-    private void printListReaders() {
+    private Set<Integer> printListReaders() {
+        Set<Integer> setNumbersReaders = new HashSet<>();
         System.out.println("Список читателей");
             for (int i = 0; i < readers.size(); i++) {
                 if(readers.get(i) != null){
                     System.out.printf("%d. %s%n",i+1, readers.get(i));
                 }
             }
-            
+            return setNumbersReaders;
     }
 
     private void returnBook() {
