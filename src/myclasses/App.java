@@ -9,7 +9,7 @@ import Entity.Reader;
 import Entity.Book;
 import Entity.Autor;
 import Entity.History;
-import File_Keeper.File_Keeper;
+import file_keeper.File_Keeper;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -32,14 +32,14 @@ public class App {
     List<Book> books = new ArrayList<>();
     List<Reader> readers = new ArrayList<>();
     List<History> histories = new ArrayList<>();
-    File_Keeper file_keeper = new File_Keeper();
+    File_Keeper BaseKeeper = new File_Keeper();
     private Date LocalDate;
     
     public App() {
-        File_Keeper file_keeper = new File_Keeper();
-        books = file_keeper.loadBooks();
-        readers = file_keeper.loadReaders();
-        histories = file_keeper.loadHistories();
+//        File_Keeper file_keeper = new File_Keeper();
+          books = BaseKeeper.loadBooks();
+//        readers = file_keeper.loadReaders();
+//        histories = file_keeper.loadHistories();  
     }
     
     public void run() {
