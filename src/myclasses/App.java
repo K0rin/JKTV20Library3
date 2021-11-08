@@ -274,17 +274,19 @@ public class App {
                         .append(". ");
             }
             if(books.get(i) != null && books.get(i).getCount() > 0){
-                System.out.printf("%d. %s. %s В наличии экземпляров: %d%n"
+                System.out.printf("%d. %s. %s %d В наличии экземпляров: %d%n"
                         ,i+1
                         ,books.get(i).getCaption()
                         ,cbAuthors.toString()
+                        ,books.get(i).getPublication_year()
                         ,books.get(i).getCount());
                 setNumbersBooks.add(i+1);
             }else if(books.get(i) != null){
-                System.out.printf("%d. %s. %s Нет в наличии. Вернется в: %s%n"
+                System.out.printf("%d. %s. %s %d Нет в наличии. Вернется в: %s%n"
                         ,i+1
                         ,books.get(i).getCaption()
                         ,cbAuthors.toString()
+                        ,books.get(i).getPublication_year()
                         ,getReturnDate(books.get(i)));
             }
         }
