@@ -51,7 +51,7 @@ public class App {
             System.out.println("2: Список книг");
             System.out.println("3: Добавить читателя");
             System.out.println("4: Список читателей");
-            System.out.println("5: Добавление выдачи книги");
+            System.out.println("5: Выдать книгу");
             System.out.println("6: Список выданных книг");
             System.out.println("7: Возврат книги");
             int task = scanner.nextInt();
@@ -87,44 +87,48 @@ public class App {
         }while("y".equals(repeat));         
     }
     
+    private boolean quit(){
+        System.out.println("Чтобы закончить операцию нажмите \"q\","
+                + "продолжения введите люьой другой символ ");
+        String quit = scanner.nextLine();
+        if("q".equals(quit)) return true;
+        return false;
+    }
+    
+    private int getNumber(){
+        do{
+            try{
+                String strNumber = scanner.nextLine();
+                return Integer.parseInt(strNumber);
+            }catch (Exception e){
+                System.out.println("Попробуй еще раз: ");
+            }
+        }while(true);
+    }
+    
+    private int insertNumber(Set<Integer> setNumbers){
+        do{
+            int historyNumber = getNumber();
+            if(setNumbers.contains(historyNumber)){
+                return historyNumber;
+            }
+            System.out.println("Попробуй еще раз: ");
+        }while(true);
+    }
+    
     private void addBook(){
             System.out.println("Добавление книги");
+            if(quit()) return;
             Book book = new Book();
             System.out.print("Введите название книги: ");
             book.setCaption(scanner.nextLine());
-            int year;
-            do{
-                System.out.print("Введите год издания: ");
-                String strYear = scanner.nextLine();
-                try{                   
-                    year = Integer.parseInt(strYear);
-                    book.setPublication_year(year);
-                }catch (Exception e) {
-                    year = 0;
-                }
-            }while(year == 0);
-            int quantity;
-            do{
-                System.out.print("Введите количество экземпляров: ");
-                String strQuantity = scanner.nextLine();
-                try{
-                    quantity = Integer.parseInt(strQuantity);
-                    book.setQuantity(quantity);
-                }catch (Exception e){
-                    quantity = 0;
-                }
-            }while(quantity == 0);
+            System.out.print("Введите год издания: ");
+            book.setPublication_year(getNumber());
+            System.out.print("Введите количество экземпляров книги: ");
+            book.setQuantity(getNumber());
             book.setCount(book.getQuantity());
-            int countAutor;
-            do{
-                System.out.print("Сколько авторов у книги: ");
-                String strCountAuthors = scanner.nextLine();
-                try{
-                    countAutor = Integer.parseInt(strCountAuthors); 
-                }catch (Exception e){
-                    countAutor = 0;
-                }
-            }while(countAutor == 0);  
+            System.out.print("Сколько авторов у книги: ");
+            int countAutor = getNumber();
             List<Autor> autors = new ArrayList<>();
             for (int i = 0; i < countAutor; i++) {
                 System.out.println("Добавление автора "+(i+1));
@@ -133,39 +137,12 @@ public class App {
                 autor.setName(scanner.nextLine());
                 System.out.print("Фамилия автора: ");
                 autor.setLastname(scanner.nextLine());
-                int yearAuthor;
-                do{
-                    System.out.print("год рождения автора: ");
-                    String strAuthorYear = scanner.nextLine();
-                try{
-                    yearAuthor = Integer.parseInt(strAuthorYear);
-                    autor.setYear(yearAuthor);
-                }catch (Exception e){
-                    yearAuthor = 0;
-                }
-                }while(yearAuthor == 0);
-                int dayAuthor;
-                do{
-                System.out.print("день рождения автора: ");
-                    String strAuthorDay = scanner.nextLine();
-                    try{
-                        dayAuthor = Integer.parseInt(strAuthorDay);
-                        autor.setBirthday(dayAuthor);
-                    }catch (Exception e){
-                        dayAuthor = 0;
-                    }
-                }while(dayAuthor == 0);
-                int monthAuthor;
-                do{
-                    System.out.print("Месяц рождения автора: ");
-                    String strAuthorMonth = scanner.nextLine();
-                try{
-                    monthAuthor = Integer.parseInt(strAuthorMonth);
-                    autor.setMonth(monthAuthor);
-                }catch (Exception e){
-                    monthAuthor = 0;
-                }
-                }while(monthAuthor == 0);
+                System.out.println("Год рождения автора: ");
+                autor.setYear(getNumber());
+                System.out.println("День рождения автора: ");
+                autor.setBirthday(getNumber());
+                System.out.println("Месяц рождения автора: ");
+                autor.setMonth(getNumber());
                 autors.add(autor);
             }
             book.setAuthor(autors);
@@ -213,6 +190,7 @@ public class App {
     }
     
     private void addHistory(){
+        if(quit()) return;
         History history = new History();
         /*
             Вывести список книг
@@ -228,30 +206,12 @@ public class App {
         if(setNumbersBooks.isEmpty()){
             return;
         }
-        int bookNumber;
-        do{
-            System.out.print("Введите номер книги");
-            String strBookNumber = scanner.nextLine();
-            try{
-                bookNumber = Integer.parseInt(strBookNumber);
-            }catch (Exception e){
-                bookNumber = 0;
-            }
-        }while(!setNumbersBooks.contains(bookNumber));
+        System.out.print("Введите номер книги из списка: ");
+        int bookNumber = insertNumber(setNumbersBooks);
         history.setBook(books.get(bookNumber-1));
         System.out.println();
-        System.out.println("Список читателей");
         Set<Integer> setNumbersReaders = printListReaders();
-        int readerNumber;
-        do{
-            System.out.println("Введите номер читателя");
-            String strreaderNumber = scanner.nextLine();
-            try {
-                readerNumber = Integer.parseInt(strreaderNumber);
-            }catch (Exception e) {
-                readerNumber = 0;
-            }
-        }while(!setNumbersReaders.contains(readerNumber));
+        int readerNumber = insertNumber(setNumbersReaders);        
         history.setReader(readers.get(readerNumber-1));
         Calendar c = new GregorianCalendar(); 
         history.setGivenDate(c.getTime());
@@ -311,6 +271,7 @@ public class App {
             for (int i = 0; i < readers.size(); i++) {
                 if(readers.get(i) != null){
                     System.out.printf("%d. %s%n",i+1, readers.get(i));
+                    setNumbersReaders.add(i+1);
                 }
             }
             return setNumbersReaders;
