@@ -5,6 +5,7 @@
  */
 package file_keeper;
 
+import Entity.Autor;
 import Entity.Book;
 import Entity.History;
 import Entity.Reader;
@@ -22,7 +23,7 @@ import javax.persistence.Persistence;
  */
 public class BaseKeeper implements Keeping{
     
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("jktv20libraryv4PU");
     EntityManager em = emf.createEntityManager();
     EntityTransaction tx = em.getTransaction();
     
@@ -32,22 +33,26 @@ public class BaseKeeper implements Keeping{
         tx.begin();
             for (int i = 0; i < books.size(); i++) {
                 if(books.get(i).getId() == null){
+                    for (int j = 0; j < books.get(i).getAuthor().size(); j++) {
+                        Book get = books.get(j);
+                        Autor author = books.get(i).getAuthor().get(j);
+                        em.persist(author);
+                    }
                     em.persist(books.get(i));
-                }         
+                }
             }
         tx.commit();
     }
 
     @Override
     public List<Book> loadBooks() {
-        List<Book> books = new ArrayList<>();
+        List<Book> books = null;
         try {
-            books = em.createQuery("SELECT book FROM Book WHERE 1")
+            books = em.createQuery("SELECT book FROM Book book")
                 .getResultList();
         }catch (Exception e){
             books = new ArrayList<>();
-        }
-        
+        }        
         return books;
     }
 

@@ -9,6 +9,8 @@ import Entity.Reader;
 import Entity.Book;
 import Entity.Autor;
 import Entity.History;
+import Interfaces.Keeping;
+import file_keeper.BaseKeeper;
 import file_keeper.File_Keeper;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -32,12 +34,12 @@ public class App {
     List<Book> books = new ArrayList<>();
     List<Reader> readers = new ArrayList<>();
     List<History> histories = new ArrayList<>();
-    File_Keeper BaseKeeper = new File_Keeper();
+    Keeping keeper = new BaseKeeper();
     private Date LocalDate;
     
     public App() {
 //        File_Keeper file_keeper = new File_Keeper();
-          books = BaseKeeper.loadBooks();
+          books = keeper.loadBooks();
 //        readers = file_keeper.loadReaders();
 //        histories = file_keeper.loadHistories();  
     }
@@ -147,7 +149,7 @@ public class App {
             }
             book.setAuthor(autors);
             books.add(book);
-            file_keeper.saveBooks(books);
+            keeper.saveBooks(books);
     }
     
     private void addReader(){
@@ -161,7 +163,7 @@ public class App {
         reader.setPhone(scanner.nextLine());
         
         readers.add(reader);
-        file_keeper.saveReaders(readers);
+        keeper.saveReaders(readers);
     }
     
     private Set<Integer> printGivenBook(){
@@ -216,14 +218,14 @@ public class App {
         Calendar c = new GregorianCalendar(); 
         history.setGivenDate(c.getTime());
         books.get(bookNumber-1).setCount(history.getBook().getCount() -1);
-        file_keeper.saveBooks(books);
+        keeper.saveBooks(books);
         histories.add(history);
-        file_keeper.saveHistories(histories);
+        keeper.saveHistories(histories);
     }
 
     private Set<Integer> printListBooks() {
         System.out.println("Список книг: ");
-        books = file_keeper.loadBooks();
+        books = keeper.loadBooks();
         Set<Integer> setNumbersBooks = new HashSet<>();
         for(int i = 0; i < books.size(); i++){
             StringBuilder cbAuthors = new StringBuilder();
@@ -303,8 +305,8 @@ public class App {
             }
         }
                 
-        file_keeper.saveBooks(books);
-        file_keeper.saveHistories(histories); 
+        keeper.saveBooks(books);
+        keeper.saveHistories(histories); 
     }
     
 }
