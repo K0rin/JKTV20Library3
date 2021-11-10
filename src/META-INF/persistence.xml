@@ -4,6 +4,8 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Entity.Autor</class>
     <class>Entity.Book</class>
+    <class>Entity.History</class>
+    <class>Entity.Reader</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/jktv20library?useUnicode=true&amp;characterEncoding=utf8"/>
       <property name="javax.persistence.jdbc.user" value="jktv20library"/>

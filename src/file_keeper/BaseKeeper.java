@@ -28,6 +28,32 @@ public class BaseKeeper implements Keeping{
     EntityTransaction tx = em.getTransaction();
     
     @Override
+    public void saveAuthors(List<Autor> autors) {
+        
+        tx.begin();
+            for (int i = 0; i < autors.size(); i++) {
+                if(autors.get(i).getId() == null){
+                    
+                    em.persist(autors.get(i));
+                }
+            }
+        tx.commit();
+        
+    }
+
+    @Override
+    public List<Autor> loadAuthors() {
+        List<Autor> autors = null;
+        try {
+            autors = em.createQuery("SELECT autor FROM Autor autor")
+                .getResultList();
+        }catch (Exception e){
+            autors = new ArrayList<>();
+        }        
+        return autors;
+    }
+       
+    @Override
     public void saveBooks(List<Book> books) {
         
         tx.begin();
@@ -58,22 +84,56 @@ public class BaseKeeper implements Keeping{
 
     @Override
     public void saveReaders(List<Reader> readers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        tx.begin();
+            for (int i = 0; i < readers.size(); i++) {
+                if(readers.get(i).getId() == null){
+                    
+                    em.persist(readers.get(i));
+                }
+            }
+        tx.commit();
     }
 
     @Override
     public List<Reader> loadReaders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        List<Reader> readers = null;
+        try {
+            readers = em.createQuery("SELECT reader FROM Reader reader")
+                .getResultList();
+        }catch (Exception e){
+            readers = new ArrayList<>();
+        }        
+        return readers;
     }
 
     @Override
     public void saveHistories(List<History> histories) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        tx.begin();
+            for (int i = 0; i < histories.size(); i++) {
+                if(histories.get(i).getId() == null){
+                    
+                    em.persist(histories.get(i));
+                }
+            }
+        tx.commit();
     }
 
     @Override
     public List<History> loadHistories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        List<History> histories = null;
+        try {
+            histories = em.createQuery("SELECT history FROM History history")
+                .getResultList();
+        }catch (Exception e){
+            histories = new ArrayList<>();
+        }        
+        return histories;
     }
+
+    
     
 }

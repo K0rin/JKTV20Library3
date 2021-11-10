@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Entity.Autor;
 import Entity.Book;
 import Entity.History;
 import Entity.Reader;
@@ -16,6 +17,8 @@ import java.util.List;
  */
 public interface Keeping {
     
+    public void saveAuthors(List<Autor> autors);
+    public List<Autor> loadAuthors();
     public void saveBooks(List<Book> books);
     public List<Book> loadBooks();
     public void saveReaders(List<Reader> readers);
