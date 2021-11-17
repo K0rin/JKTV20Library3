@@ -60,7 +60,6 @@ public class BaseKeeper implements Keeping{
             for (int i = 0; i < books.size(); i++) {
                 if(books.get(i).getId() == null){
                     for (int j = 0; j < books.get(i).getAuthor().size(); j++) {
-                        Book get = books.get(j);
                         Autor author = books.get(i).getAuthor().get(j);
                         em.persist(author);
                     }

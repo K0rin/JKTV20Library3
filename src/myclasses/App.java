@@ -61,6 +61,8 @@ public class App {
             System.out.println("7: Возврат книги");
             System.out.println("8: Добавить автора");
             System.out.println("9: Список авторов");
+            System.out.println("10: Добавить количество экземпляров книг");
+            System.out.println("11: Изменить азвание книги");
             int task = scanner.nextInt();
             scanner.nextLine();
             switch (task){
@@ -95,6 +97,14 @@ public class App {
                     break;
                 case 9:
                     printListAuthors();                  
+                    break;
+                case 10:
+                    changeBookCountity();  
+                    keeper.saveBooks(books);
+                    break;
+                case 11:
+                    changeBookName();  
+                    keeper.saveBooks(books);
                     break;
             }
         }while("y".equals(repeat));         
@@ -151,7 +161,7 @@ public class App {
                 int numberAuthor = insertNumber(setNumbersAuthors);
                 authorsBook.add(authors.get(numberAuthor-1));
             }
-            book.setAuthor(authors);                       
+            book.setAuthor(authorsBook);                       
             System.out.print("Введите название книги: ");
             book.setCaption(scanner.nextLine());
             System.out.print("Введите год издания: ");
@@ -224,6 +234,9 @@ public class App {
         history.setBook(books.get(bookNumber-1));
         System.out.println();
         Set<Integer> setNumbersReaders = printListReaders();
+        if(setNumbersReaders.isEmpty()){
+            return;
+        }
         int readerNumber = insertNumber(setNumbersReaders);        
         history.setReader(readers.get(readerNumber-1));
         Calendar c = new GregorianCalendar(); 
@@ -287,6 +300,9 @@ public class App {
                     setNumbersReaders.add(i+1);
                 }
             }
+            if(setNumbersReaders.isEmpty()){
+                System.out.println("Читателей нет");
+            }
             return setNumbersReaders;
     }
 
@@ -348,5 +364,39 @@ public class App {
             }
             return setNumbersAuthors;
     }
+
+    private void changeBookCountity() {
+        if(quit()) return;
+        History book = new History();
+        Set<Integer> setNumbersBooks = printListBooks();
+        if(setNumbersBooks.isEmpty()){
+            return;
+        }
+        System.out.print("Введите номер книги из списка: ");
+        int bookNumber = insertNumber(setNumbersBooks);
+        book.setBook(books.get(bookNumber-1));
+        System.out.print("Сколько экземпляров добавить: ");
+        int count = getNumber();
+        book.getBook().setQuantity(books.get(bookNumber-1).getQuantity()+count);
+        book.getBook().setCount(books.get(bookNumber-1).getCount()+count);
+        System.out.println("ok");
+    }
+
+    private void changeBookName() {
+        if(quit()) return;
+        History book = new History();
+        Set<Integer> setNumbersBooks = printListBooks();
+        if(setNumbersBooks.isEmpty()){
+            return;
+        }
+        System.out.print("Введите номер книги из списка: ");
+        int bookNumber = insertNumber(setNumbersBooks);
+        book.setBook(books.get(bookNumber-1));
+        System.out.print("Введите новое название книги: ");
+        book.getBook().setCaption(scanner.nextLine());
+        System.out.println("ok"); 
+    }
+    
+    
     
 }
