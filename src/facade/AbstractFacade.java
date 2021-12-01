@@ -5,7 +5,7 @@
  */
 package facade;
 
-import Entity.Book;
+import entity.Book;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -17,14 +17,12 @@ import javax.persistence.Persistence;
  *
  * @author pupil
  */
-public abstract class AbstractFacade<T> {
-    
-    
+public abstract class AbstractFacade<T> {  
     
     private Class<T> entityClass;
     
-    public AbstractFacade(Class<T> entiClass){   
-            this.entityClass = entiClass;
+    public AbstractFacade(Class<T> entityClass){   
+        this.entityClass = entityClass;
     }
     
     protected abstract EntityManager getEntityManager();
@@ -36,18 +34,18 @@ public abstract class AbstractFacade<T> {
     }
     
     public void edit(T entity){
-        tx.begin();
-            .merge(entity);
-        tx.commit();
+        getEntityManager().getTransaction().begin();
+            getEntityManager().merge(entity);
+        getEntityManager().getTransaction().commit();
     }
     
     public T find(Long id){
-        return em.find(entityClass, id);
+        return (T)getEntityManager().find(entityClass, id);
     }
     
     public List<T> findAll(){
         try{
-            return em.createQuery("SELECT entity FROM "+entityClass.getName()+" entity").getResultList();
+            return getEntityManager().createQuery("SELECT entity FROM "+entityClass.getName()+" entity").getResultList();
         }catch(Exception e){
             return new ArrayList<>();
         }

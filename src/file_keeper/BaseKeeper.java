@@ -5,10 +5,10 @@
  */
 package file_keeper;
 
-import Entity.Autor;
-import Entity.Book;
-import Entity.History;
-import Entity.Reader;
+import entity.Autor;
+import entity.Book;
+import entity.History;
+import entity.Reader;
 import Interfaces.Keeping;
 import java.util.ArrayList;
 import java.util.List;

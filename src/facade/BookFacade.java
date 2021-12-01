@@ -5,7 +5,7 @@
  */
 package facade;
 
-import Entity.Book;
+import entity.Book;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -17,12 +17,12 @@ import javax.persistence.Persistence;
  */
 public class BookFacade extends AbstractFacade<Book>{
     
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("jktv20libraryv4PU");
-    EntityManager em = emf.createEntityManager();
-    EntityTransaction tx = em.getTransaction();
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("jktv20libraryv4PU");
+    private EntityManager em = emf.createEntityManager();
+    private EntityTransaction tx = em.getTransaction();
     
-    public BookFacade(Class<Book> entiClass) {
-        super(entiClass);
+    public BookFacade(Class<Book> entityClass) {
+        super(entityClass);
     }
     
     @Override

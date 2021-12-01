@@ -5,10 +5,10 @@
  */
 package Interfaces;
 
-import Entity.Autor;
-import Entity.Book;
-import Entity.History;
-import Entity.Reader;
+import entity.Autor;
+import entity.Book;
+import entity.History;
+import entity.Reader;
 import java.util.List;
 
 /**
