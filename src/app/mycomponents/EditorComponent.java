@@ -51,5 +51,11 @@ public class EditorComponent extends JPanel{
     public JLabel getCaption() {
         return caption;
     }
+
+    public JTextField getEditor() {
+        return editor;
+    }
+    
+    
         
 }
