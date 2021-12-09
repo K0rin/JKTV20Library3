@@ -42,6 +42,7 @@ public class ListAuthorsComponent extends JPanel{
         caption.setFont(new Font("Tahoma",0,12));
         this.add(caption);
         this.add(Box.createRigidArea(new Dimension(5, 0)));
+        list = new JList();
         
     }
 }
