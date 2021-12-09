@@ -12,7 +12,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
 
 /**
  *
@@ -27,7 +30,7 @@ public class ListAuthorsComponent extends JPanel{
         initComponents(text, widthWindow, heightPanel, listWidth);
     }
     
-    private void initComponents(String text, int widthWindow, int heightPanel, int editorWidth) {
+    private void initComponents(String text, int widthWindow, int heightPanel, int listWidth) {
         this.setPreferredSize(new Dimension(widthWindow, heightPanel));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
@@ -42,6 +45,14 @@ public class ListAuthorsComponent extends JPanel{
         caption.setFont(new Font("Tahoma",0,12));
         this.add(caption);
         this.add(Box.createRigidArea(new Dimension(5, 0)));
-        
+        list = new JList<>();
+        list.setSelectionMode (ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setPreferredSize(new Dimension(listWidth, 120));
+        scrollPane.setMaximumSize(scrollPane.getPreferredSize());
+        scrollPane.setMinimumSize(scrollPane.getPreferredSize());
+        scrollPane.setAlignmentX(LEFT_ALIGNMENT);
+        scrollPane.setAlignmentY(TOP_ALIGNMENT);
+        this.add(scrollPane);
     }
 }
