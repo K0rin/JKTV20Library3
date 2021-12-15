@@ -67,8 +67,9 @@ public class TabEditReaderComponents extends JPanel{
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+                Reader reader = readerFacade.find((long)ComboBoxReadersComponent.getJComboBox().getSelectedIndex()+1);;
                 
-                Reader reader = new Reader();
                 if(nameComponent.getEditor().getText().isEmpty()){
                     infoComponent1.getInfo().setText("Введите имя читателя");
                     return;
@@ -86,9 +87,10 @@ public class TabEditReaderComponents extends JPanel{
                     return;
                 }
                 reader.setPhone(phoneComponent.getEditor().getText());
-                ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+                
+                
                 try {
-                   readerFacade.create(reader);
+                   readerFacade.edit(reader);
                    infoComponent1.getInfo().setText("ОК");
                    nameComponent.getEditor().setText("");
                    lastName.getEditor().setText("");
