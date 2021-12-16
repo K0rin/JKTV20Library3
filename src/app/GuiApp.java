@@ -31,7 +31,8 @@ import javax.swing.JTabbedPane;
  * @author pupil
  */
 public class GuiApp extends JFrame{
-    
+    public static final int WIDTH_WINDOWS = 600;
+    public static final int HEIGHT_WINDOWS = 450;
 
     public GuiApp() {
         initComponents();
@@ -41,11 +42,11 @@ public class GuiApp extends JFrame{
     
     private void initComponents() {
         this.setTitle("JKTV20 Library");
-        this.setPreferredSize(new Dimension(600, 450));
+        this.setPreferredSize(new Dimension(WIDTH_WINDOWS, HEIGHT_WINDOWS));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());               
         JTabbedPane jTabbedPane = new JTabbedPane();
-        jTabbedPane.setPreferredSize(new Dimension(600, 450));
+        jTabbedPane.setPreferredSize(new Dimension(WIDTH_WINDOWS, HEIGHT_WINDOWS));
         jTabbedPane.setMinimumSize(this.getPreferredSize());
         jTabbedPane.setMaximumSize(this.getPreferredSize());        
         TabBookComponent tabBookComponent = new TabBookComponent(this.getWidth());

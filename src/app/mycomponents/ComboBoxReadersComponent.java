@@ -56,12 +56,15 @@ public class ComboBoxReadersComponent extends JPanel{
         caption.setMaximumSize(caption.getPreferredSize());
 //        caption.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
         caption.setHorizontalAlignment(JLabel.RIGHT);
-        caption.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        caption.setAlignmentY(CENTER_ALIGNMENT);
         caption.setFont(new Font("Tahoma",0,12));
         this.add(caption);
         this.add(Box.createRigidArea(new Dimension(5, 0)));
         comboBox = new JComboBox<>();
-        comboBox.setModel(getListModel());
+        comboBox.setPreferredSize(new Dimension(listWidth, 27));
+        comboBox.setMaximumSize(comboBox.getPreferredSize());
+        comboBox.setMinimumSize(comboBox.getPreferredSize());
+//        comboBox.setModel(getListModel());
         comboBox.setRenderer(createListAutorsRenderer());
         comboBox.setMaximumRowCount(5);
         this.add(comboBox);
@@ -88,6 +91,7 @@ public class ComboBoxReadersComponent extends JPanel{
                 if(component instanceof JLabel){
                     JLabel label = (JLabel) component;
                     Reader reader = (Reader) value;
+                    if(reader == null) return component;
                     label.setText(String.format("%d %s %s %s%n", reader.getId(), reader.getFirstname(), reader.getLastname(), reader.getPhone()));
                     if(!isSelected){
                         label.setBackground(index % 2 == 0 ? background : defaultBackground);
@@ -98,7 +102,7 @@ public class ComboBoxReadersComponent extends JPanel{
         };
     }
     
-    public JComboBox<Reader> getJComboBox(){
+    public JComboBox<Reader> getComboBox(){
         return comboBox;
     }
 }
