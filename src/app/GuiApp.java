@@ -11,6 +11,8 @@ import app.mycomponents.EditorComponent;
 import app.mycomponents.InfoComponent;
 import app.mycomponents.ListAuthorsComponent;
 import app.mycomponents.TabBookComponent;
+import app.mycomponents.TabGiveBookComponent;
+import app.mycomponents.TabLibrarerComponent;
 import app.mycomponents.TabReaderComponent;
 import entity.Autor;
 import entity.Book;
@@ -51,9 +53,12 @@ public class GuiApp extends JFrame{
         jTabbedPane.setMaximumSize(this.getPreferredSize());        
         TabBookComponent tabBookComponent = new TabBookComponent(this.getWidth());
         TabReaderComponent tabReaderComponent = new TabReaderComponent(this.getWidth());
+        TabLibrarerComponent tabLibrarerComponent = new TabLibrarerComponent(this.getWidth());
         jTabbedPane.addTab("Книга", tabBookComponent);
         this.getContentPane().add(jTabbedPane);
         jTabbedPane.addTab("Читатель", tabReaderComponent);
+        this.getContentPane().add(jTabbedPane);
+        jTabbedPane.addTab("Библиотекарь", tabLibrarerComponent);
         this.getContentPane().add(jTabbedPane);
         
     }

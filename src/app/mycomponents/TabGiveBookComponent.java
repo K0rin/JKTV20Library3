@@ -5,7 +5,11 @@
  */
 package app.mycomponents;
 
+import entity.Autor;
+import entity.Book;
+import entity.History;
 import entity.Reader;
+import facade.BookFacade;
 import facade.ReaderFacade;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -17,14 +21,16 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.ListModel;
 
 /**
  *
  * @author pupil
  */
-public class TabEditReaderComponents extends JPanel{   
+public class TabGiveBookComponent extends JPanel{   
 
     private InfoComponent infoComponent;
     private CaptionComponent captionComponent;
@@ -32,50 +38,55 @@ public class TabEditReaderComponents extends JPanel{
     private EditorComponent lastNameComponent;
     private EditorComponent phoneComponent;
     private ButtonComponent buttonComponent;
+    private ListBooksComponent listBooksComponent;
     private ComboBoxReadersComponent comboBoxReadersComponent;
     private ComboBoxModel comboBoxModel;
     private Reader reader;
+    private History history;
     
-    public TabEditReaderComponents(int widthPanel, ComboBoxModel comboBoxModel) {
+//    public TabGiveBookComponent(int widthPanel, ComboBoxModel comboBoxModel) {
+//        this.comboBoxModel = comboBoxModel;
+//        initComponent(widthPanel);
+//    }
+
+    public TabGiveBookComponent(int widthPanel, ComboBoxModel comboBoxModel, ListBooksComponent listBooksComponent) {
         this.comboBoxModel = comboBoxModel;
-        initComponent(widthPanel);
+        this.listBooksComponent = listBooksComponent;
+        initComponents(widthPanel);
     }
 
-    private void initComponent(int widthPanel) {
+    private void initComponents(int widthPanel) {
         this.setPreferredSize(new Dimension(widthPanel, 450));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
-        JTabbedPane tabAddReader = new JTabbedPane();
-        
+        JTabbedPane tabAddReader = new JTabbedPane();       
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createRigidArea(new Dimension(0,15)));
-        captionComponent = new CaptionComponent("Изменить данные читателя", widthPanel, 31);
+        captionComponent = new CaptionComponent("Выбор книги", widthPanel, 31);
         this.add(captionComponent);
         infoComponent = new InfoComponent("", widthPanel, 31);
-        this.add(infoComponent);
+        this.add(infoComponent);        
+        listBooksComponent = new ListBooksComponent("Книги", widthPanel, 120, 300);
+        this.add(listBooksComponent);
+        listBooksComponent.getJList().setModel(getListBookModel());
         this.add(Box.createRigidArea(new Dimension(0, 10)));
-        nameComponent = new EditorComponent("Имя", widthPanel, 31, 300);
-        lastNameComponent = new EditorComponent("Фамилия", widthPanel, 31, 100);
-        phoneComponent = new EditorComponent("Телефон", widthPanel, 31, 300);
-        comboBoxReadersComponent = new ComboBoxReadersComponent("Читатели", widthPanel, 31, 300);
-        comboBoxReadersComponent.getComboBox().setModel(addComboBoxModel());
+        comboBoxReadersComponent = new ComboBoxReadersComponent("Читателю", widthPanel, 31, 300);
+        comboBoxReadersComponent.getComboBox().setModel(addComboBoxModelReader());
         comboBoxReadersComponent.getComboBox().setSelectedIndex(-1);
         comboBoxReadersComponent.getComboBox().addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent ie) {
                 reader=(Reader) ie.getItem();
-                nameComponent.getEditor().setText(reader.getFirstname());
-                lastNameComponent.getEditor().setText(reader.getLastname());
-                phoneComponent.getEditor().setText(reader.getPhone());
             }
         });
+        
+        
         this.add(comboBoxReadersComponent);       
         this.add(Box.createRigidArea(new Dimension(0,10)));        
-        this.add(nameComponent);        
-        this.add(lastNameComponent);        
-        this.add(phoneComponent);
+
         this.add(Box.createRigidArea(new Dimension(0,10)));
-        buttonComponent = new ButtonComponent("изменить данные читателя", widthPanel, 35, widthPanel/3+5, 200);
+        
+        buttonComponent = new ButtonComponent("выдать книги читателя", widthPanel, 35, widthPanel/3+5, 200);
         this.add(buttonComponent);
         buttonComponent.getButton().addActionListener(clickToButton());
     }
@@ -84,24 +95,17 @@ public class TabEditReaderComponents extends JPanel{
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                ReaderFacade readerFacade = new ReaderFacade(Reader.class);               
-                if(nameComponent.getEditor().getText().isEmpty()){
-                    infoComponent.getInfo().setText("Введите имя читателя");
+                ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+                BookFacade bookFacade = new BookFacade(Book.class);
+                List<Book> books = listBooksComponent.getJList().getSelectedValuesList();
+                if(books.isEmpty()){
+                    infoComponent.getInfo().setText("вы не выбрали автора");
                     return;
                 }
-                reader.setFirstname(nameComponent.getEditor().getText());
+                for (int i = 0; i < books.size(); i++) {
+                    history.setBook(bookFacade.find((long)book));
+                }
                 
-                if(lastNameComponent.getEditor().getText().isEmpty()){
-                    infoComponent.getInfo().setText("Введите фамилию читателя");
-                    return;
-                }
-                reader.setLastname(lastNameComponent.getEditor().getText());
-                
-                if(phoneComponent.getEditor().getText().isEmpty()){
-                    infoComponent.getInfo().setText("Введите телефон читателя");
-                    return;
-                }
-                reader.setPhone(phoneComponent.getEditor().getText());
                 
                 
                 try {
@@ -119,10 +123,7 @@ public class TabEditReaderComponents extends JPanel{
         
     }
     
-    public ComboBoxModel<Reader> addComboBoxModel(){
-        nameComponent.getEditor().setText("");
-        lastNameComponent.getEditor().setText("");
-        phoneComponent.getEditor().setText("");
+    public ComboBoxModel<Reader> addComboBoxModelReader(){
         infoComponent.getInfo().setText("");
         ReaderFacade readerFacade = new ReaderFacade(Reader.class);
         List<Reader> readers = readerFacade.findAll();
@@ -131,8 +132,19 @@ public class TabEditReaderComponents extends JPanel{
             defaultComboBoxModel.addElement(reader);
         }
         comboBoxModel = defaultComboBoxModel;
-        comboBoxReadersComponent.getComboBox().setModel(comboBoxModel);
+        comboBoxReadersComponent.getComboBox().setModel(defaultComboBoxModel);
+        comboBoxReadersComponent.getComboBox().setSelectedIndex(-1);
         return comboBoxModel;
+    }
+    
+    public ListModel<Book> getListBookModel() {
+        BookFacade bookFacade = new BookFacade(Book.class);
+        List<Book> books = bookFacade.findAll();
+        DefaultListModel<Book> defaultListModel = new DefaultListModel<>();
+        for (Book book : books) {
+            defaultListModel.addElement(book);
+        }
+        return defaultListModel;
     }
 }
 

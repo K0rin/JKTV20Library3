@@ -27,7 +27,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author pupil
  */
-public class TabReaderComponent extends JPanel{
+public class TabLibrarerComponent extends JPanel{
     
     private InfoComponent infoComponent1;
     private CaptionComponent captionComponent;
@@ -36,10 +36,11 @@ public class TabReaderComponent extends JPanel{
     private EditorComponent phoneComponent;
     private ButtonComponent buttonComponent;
     private ComboBoxModel comboBoxModel;
+    private ListBooksComponent listBooksComponent;
     private ComboBoxReadersComponent comboBoxReadersComponent;
     
     
-    public TabReaderComponent(int widthWindow) {
+    public TabLibrarerComponent(int widthWindow) {
         setComboBoxModel();
         initComponent(widthWindow);
     }
@@ -53,15 +54,16 @@ public class TabReaderComponent extends JPanel{
         tabReader.setMinimumSize(tabReader.getPreferredSize());
         tabReader.setMaximumSize(tabReader.getPreferredSize());
         tabReader.setAlignmentX(CENTER_ALIGNMENT);
-        TabAddReaderComponents tabAddReaderComponents = new TabAddReaderComponents(widthPanel);
-        tabReader.addTab("Добавить читателя", tabAddReaderComponents);
+        TabGiveBookComponent tabGiveBookComponents = new TabGiveBookComponent(widthPanel, comboBoxModel, listBooksComponent);
+        tabReader.addTab("Выдать книгу", tabGiveBookComponents);
         TabEditReaderComponents tabEditReaderComponents = new TabEditReaderComponents(widthPanel, comboBoxModel);
-        tabReader.addTab("Изменить читателя", tabEditReaderComponents);
+        tabReader.addTab("Вернуть книгу", tabEditReaderComponents);
         this.add(tabReader);
         tabReader.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent ce) {
-                tabEditReaderComponents.addComboBoxModel();
+                tabGiveBookComponents.addComboBoxModelReader();
+                tabGiveBookComponents.getListBookModel();
             }
         });
     }
