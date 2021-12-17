@@ -71,14 +71,21 @@ public class ListBooksComponent extends JPanel{
         this.add(scrollPane);
     }
 
-    private ListModel<Book> getListModel() {
+    private ListModel<Book> getListModel() {        
+        return getListModel(false);
+    }
+    
+    ListModel<Book> getListModel(boolean allBooks) {
         BookFacade bookFacade = new BookFacade(Book.class);
-        List<Book> books = bookFacade.findAll();
+        List<Book> books=null;
+        if(allBooks){
+            books = bookFacade.findAll();
+        }else{
+            books = bookFacade.findEnabledBook();
+        }
         DefaultListModel<Book> defaultListModel = new DefaultListModel<>();
-        for (Book book : books) {
-            if(book.getCount() > 0){
-                defaultListModel.addElement(book);
-            }            
+        for (Book book : books){
+            defaultListModel.addElement(book);
         }
         return defaultListModel;
     }
@@ -101,7 +108,10 @@ public class ListBooksComponent extends JPanel{
                     }
                     if(book.getCount() > 0){
                         label.setText(String.format("%d. %s %s%n", book.getId(), book.getCaption(), sb.toString()));
-                    }                    
+                    }  else{
+                        label.setText(String.format("%d. %s %s нет в наличии %n", book.getId(), book.getCaption(), sb.toString()));
+                        label.setForeground(Color.RED);
+                    }                  
                     if(!isSelected){
                         label.setBackground(index % 2 == 0 ? background : defaultBackground);
                     }

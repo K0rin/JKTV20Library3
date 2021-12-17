@@ -6,6 +6,8 @@
 package facade;
 
 import entity.Book;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import tools.Singleton;
 
@@ -26,6 +28,14 @@ public class BookFacade extends AbstractFacade<Book>{
     @Override
     protected EntityManager getEntityManager(){
         return em;
+    }
+
+    public List<Book> findEnabledBook() {
+        try{
+            return em.createQuery("Select b From Book b WHERE b.count > 0").getResultList();
+        }catch(Exception e){
+            return new ArrayList<>();
+        }
     }
     
 }

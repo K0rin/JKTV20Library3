@@ -26,6 +26,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListModel;
@@ -68,6 +69,22 @@ public class TabGiveBookComponent extends JPanel{
         this.add(infoComponent);        
         listBooksComponent = new ListBooksComponent("Книги", widthPanel, 120, 300);
         this.add(listBooksComponent);
+        JCheckBox checkBoxAllBooks = new JCheckBox("Показать все книги");
+        this.add(checkBoxAllBooks);
+        checkBoxAllBooks.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+               if(ie.getStateChange() == ItemEvent.SELECTED){
+                   listBooksComponent.getJList().setModel(listBooksComponent.getListModel(true));
+                   buttonComponent.getButton().setEnabled(false);
+                   listBooksComponent.getJList().setEnabled(false);
+               }else{
+                   listBooksComponent.getJList().setModel(listBooksComponent.getListModel(false));
+                   buttonComponent.getButton().setEnabled(true);
+                   listBooksComponent.getJList().setEnabled(true);
+               }
+            }
+        });
         listBooksComponent.getJList().setModel(getListBookModel());
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         comboBoxReadersComponent = new ComboBoxReadersComponent("Читателю", widthPanel, 31, 300);
@@ -98,7 +115,6 @@ public class TabGiveBookComponent extends JPanel{
                 HistoryFacade historyFacade = new HistoryFacade(History.class);
                 BookFacade bookFacade = new BookFacade(Book.class);
                 List<Book> books = listBooksComponent.getJList().getSelectedValuesList();
-                List<History> histories = new ArrayList<>();
                 if(books.isEmpty()){
                     infoComponent.getInfo().setText("вы не выбрали книги");
                     return;
@@ -106,26 +122,21 @@ public class TabGiveBookComponent extends JPanel{
                 if(comboBoxReadersComponent.getComboBox().getSelectedIndex() == -1){
                     infoComponent.getInfo().setText("вы не выбрали читателей");
                     return;
-                }
-                
-                for (int i = 0; i < books.size(); i++) {
-                    History history = new History();
-                    history.setBook(books.get(i));
-                    history.setReader(reader);
-                    Calendar c = new GregorianCalendar();
-                    history.setGivenDate(c.getTime());
-                    histories.add(history);
-                }
+                }                
            
                 try {
-                    for (int i = 0; i < histories.size(); i++) {
+                    for (int i = 0; i < books.size(); i++) {
                         History history = new History();
-                        history.setBook(histories.get(i).getBook());
-                        history.setReader(histories.get(i).getReader());
-                        history.setGivenDate(histories.get(i).getGivenDate());
+                        history.setBook(books.get(i));
+                        history.setReader(reader);
+                        Calendar c = new GregorianCalendar();
+                        history.setGivenDate(c.getTime());
                         history.getBook().setCount(history.getBook().getCount()-1);
                         bookFacade.edit(history.getBook());
                         historyFacade.create(history);
+                        comboBoxReadersComponent.getComboBox().setSelectedIndex(-1);
+                        listBooksComponent.getJList().setModel(listBooksComponent.getListModel(false));
+                        listBooksComponent.getJList().clearSelection();
                     }
                    infoComponent.getInfo().setText("Книги выданы");
                    comboBoxReadersComponent.getComboBox().setSelectedIndex(-1);
@@ -153,7 +164,7 @@ public class TabGiveBookComponent extends JPanel{
     
     public ListModel<Book> getListBookModel() {
         BookFacade bookFacade = new BookFacade(Book.class);
-        List<Book> books = bookFacade.findAll();
+        List<Book> books = bookFacade.findEnabledBook();
         DefaultListModel<Book> defaultListModel = new DefaultListModel<>();
         for (Book book : books) {
             defaultListModel.addElement(book);
