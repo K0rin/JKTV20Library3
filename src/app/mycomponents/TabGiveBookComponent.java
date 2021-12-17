@@ -38,15 +38,11 @@ public class TabGiveBookComponent extends JPanel{
 
     private InfoComponent infoComponent;
     private CaptionComponent captionComponent;
-    private EditorComponent nameComponent;
-    private EditorComponent lastNameComponent;
-    private EditorComponent phoneComponent;
     private ButtonComponent buttonComponent;
     private ListBooksComponent listBooksComponent;
     private ComboBoxReadersComponent comboBoxReadersComponent;
     private ComboBoxModel comboBoxModel;
     private Reader reader;
-    private History history;
     
 //    public TabGiveBookComponent(int widthPanel, ComboBoxModel comboBoxModel) {
 //        this.comboBoxModel = comboBoxModel;
@@ -100,16 +96,15 @@ public class TabGiveBookComponent extends JPanel{
             @Override
             public void actionPerformed(ActionEvent ae) {
                 HistoryFacade historyFacade = new HistoryFacade(History.class);
-                ReaderFacade readerFacade = new ReaderFacade(Reader.class);
                 BookFacade bookFacade = new BookFacade(Book.class);
                 List<Book> books = listBooksComponent.getJList().getSelectedValuesList();
                 List<History> histories = new ArrayList<>();
                 if(books.isEmpty()){
-                    infoComponent.getInfo().setText("вы не выбрали автора");
+                    infoComponent.getInfo().setText("вы не выбрали книги");
                     return;
                 }
                 if(comboBoxReadersComponent.getComboBox().getSelectedIndex() == -1){
-                    infoComponent.getInfo().setText("вы не выбрали автора");
+                    infoComponent.getInfo().setText("вы не выбрали читателей");
                     return;
                 }
                 
@@ -124,14 +119,12 @@ public class TabGiveBookComponent extends JPanel{
            
                 try {
                     for (int i = 0; i < histories.size(); i++) {
-                        Book book = new Book();
                         History history = new History();
                         history.setBook(histories.get(i).getBook());
                         history.setReader(histories.get(i).getReader());
                         history.setGivenDate(histories.get(i).getGivenDate());
-                        book = history.getBook();
-                        book.setCount(book.getCount()-1);
-                        bookFacade.edit(book);
+                        history.getBook().setCount(history.getBook().getCount()-1);
+                        bookFacade.edit(history.getBook());
                         historyFacade.create(history);
                     }
                    infoComponent.getInfo().setText("Книги выданы");
