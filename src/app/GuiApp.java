@@ -8,6 +8,7 @@ package app;
 import app.mycomponents.ButtonComponent;
 import app.mycomponents.CaptionComponent;
 import app.mycomponents.EditorComponent;
+import app.mycomponents.GuestComponent;
 import app.mycomponents.InfoComponent;
 import app.mycomponents.ListAuthorsComponent;
 import app.mycomponents.TabBookComponent;
@@ -35,6 +36,7 @@ import javax.swing.JTabbedPane;
 public class GuiApp extends JFrame{
     public static final int WIDTH_WINDOWS = 600;
     public static final int HEIGHT_WINDOWS = 450;
+    private GuestComponent guestComponent; 
 
     public GuiApp() {
         initComponents();
@@ -46,20 +48,23 @@ public class GuiApp extends JFrame{
         this.setTitle("JKTV20 Library");
         this.setPreferredSize(new Dimension(WIDTH_WINDOWS, HEIGHT_WINDOWS));
         this.setMinimumSize(this.getPreferredSize());
-        this.setMaximumSize(this.getPreferredSize());               
-        JTabbedPane jTabbedPane = new JTabbedPane();
-        jTabbedPane.setPreferredSize(new Dimension(WIDTH_WINDOWS, HEIGHT_WINDOWS));
-        jTabbedPane.setMinimumSize(this.getPreferredSize());
-        jTabbedPane.setMaximumSize(this.getPreferredSize());        
-        TabBookComponent tabBookComponent = new TabBookComponent(this.getWidth());
-        TabReaderComponent tabReaderComponent = new TabReaderComponent(this.getWidth());
-        TabLibrarerComponent tabLibrarerComponent = new TabLibrarerComponent(this.getWidth());
-        jTabbedPane.addTab("Книга", tabBookComponent);
-        this.getContentPane().add(jTabbedPane);
-        jTabbedPane.addTab("Читатель", tabReaderComponent);
-        this.getContentPane().add(jTabbedPane);
-        jTabbedPane.addTab("Библиотекарь", tabLibrarerComponent);
-        this.getContentPane().add(jTabbedPane);
+        this.setMaximumSize(this.getPreferredSize());
+        guestComponent = new GuestComponent();
+        this.add(guestComponent);
+        
+//        JTabbedPane jTabbedPane = new JTabbedPane();
+//        jTabbedPane.setPreferredSize(new Dimension(WIDTH_WINDOWS, HEIGHT_WINDOWS));
+//        jTabbedPane.setMinimumSize(this.getPreferredSize());
+//        jTabbedPane.setMaximumSize(this.getPreferredSize());        
+//        TabBookComponent tabBookComponent = new TabBookComponent(this.getWidth());
+//        TabReaderComponent tabReaderComponent = new TabReaderComponent(this.getWidth());
+//        TabLibrarerComponent tabLibrarerComponent = new TabLibrarerComponent(this.getWidth());
+//        jTabbedPane.addTab("Книга", tabBookComponent);
+//        this.getContentPane().add(jTabbedPane);
+//        jTabbedPane.addTab("Читатель", tabReaderComponent);
+//        this.getContentPane().add(jTabbedPane);
+//        jTabbedPane.addTab("Библиотекарь", tabLibrarerComponent);
+//        this.getContentPane().add(jTabbedPane);
         
     }
     

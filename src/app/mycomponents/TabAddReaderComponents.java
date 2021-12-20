@@ -32,6 +32,8 @@ public class TabAddReaderComponents extends JPanel{
     private EditorComponent nameComponent;
     private EditorComponent lastName;
     private EditorComponent phoneComponent;
+    private EditorComponent loginComponent;
+    private EditorComponent passwordComponent;
     private ButtonComponent buttonComponent;
     
    
@@ -44,7 +46,7 @@ public class TabAddReaderComponents extends JPanel{
         
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createRigidArea(new Dimension(0,15)));
-        captionComponent = new CaptionComponent("Добавление новой читателя", widthPanel, 31);
+        captionComponent = new CaptionComponent("Регистрация нового читателя", widthPanel, 31);
         this.add(captionComponent);
         infoComponent1 = new InfoComponent("", widthPanel, 31);
         this.add(infoComponent1);
@@ -55,6 +57,10 @@ public class TabAddReaderComponents extends JPanel{
         this.add(lastName);
         phoneComponent = new EditorComponent("Телефон", widthPanel, 31, 300);
         this.add(phoneComponent);
+        loginComponent = new EditorComponent("Логин", widthPanel, 31, 300);
+        this.add(loginComponent);
+        passwordComponent = new EditorComponent("Пароль", widthPanel, 31, 300);
+        this.add(passwordComponent);
         buttonComponent = new ButtonComponent("Добавить читателя", widthPanel, 31, 350, 150);
         this.add(buttonComponent);
         buttonComponent.getButton().addActionListener(clickToButton());

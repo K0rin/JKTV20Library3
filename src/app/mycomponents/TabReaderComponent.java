@@ -54,7 +54,7 @@ public class TabReaderComponent extends JPanel{
         tabReader.setMaximumSize(tabReader.getPreferredSize());
         tabReader.setAlignmentX(CENTER_ALIGNMENT);
         TabAddReaderComponents tabAddReaderComponents = new TabAddReaderComponents(widthPanel);
-        tabReader.addTab("Добавить читателя", tabAddReaderComponents);
+        tabReader.addTab("Регистрация читателя", tabAddReaderComponents);
         TabEditReaderComponents tabEditReaderComponents = new TabEditReaderComponents(widthPanel, comboBoxModel);
         tabReader.addTab("Изменить читателя", tabEditReaderComponents);
         this.add(tabReader);
