@@ -67,9 +67,9 @@ public class ListBooksComponent extends JPanel{
             list.setCellRenderer(createListBooksRenderer());
             list.setSelectionMode (ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             list.setLayoutOrientation(JList.HEIGHT);
-            
+            this.add(list);
             JScrollPane scrollPane = new JScrollPane(list);
-            scrollPane.setPreferredSize(new Dimension(listWidth, heightPanel - 250));
+            scrollPane.setPreferredSize(new Dimension(listWidth, 120));
             scrollPane.setMaximumSize(scrollPane.getPreferredSize());
             scrollPane.setMinimumSize(scrollPane.getPreferredSize());
             scrollPane.setAlignmentX(LEFT_ALIGNMENT);
@@ -83,7 +83,7 @@ public class ListBooksComponent extends JPanel{
             caption.setMaximumSize(caption.getPreferredSize());
     //        caption.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
             caption.setHorizontalAlignment(JLabel.RIGHT);       
-            caption.setAlignmentY(JLabel.TOP_ALIGNMENT);
+            caption.setAlignmentY(TOP_ALIGNMENT);
             caption.setFont(new Font("Tahoma",0,12));
             this.add(caption);
             

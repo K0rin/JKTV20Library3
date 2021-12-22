@@ -18,17 +18,17 @@ public class GuestComponent extends JPanel{
     private GuestButtonComponent guestButtonComponent;
 
     public GuestComponent() {
-        initComponents();
         this.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOWS, GuiApp.HEIGHT_WINDOWS));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
+        initComponents();       
     }
 
     private void initComponents() {
         listBooksComponent = new ListBooksComponent(true, "Книги", GuiApp.WIDTH_WINDOWS, GuiApp.HEIGHT_WINDOWS, 400);
         this.add(listBooksComponent);
-        guestButtonComponent = new GuestButtonComponent("Войти", "Зарегистрироваться", GuiApp.WIDTH_WINDOWS, HEIGHT, WIDTH, HEIGHT, WIDTH)
-        
+        guestButtonComponent = new GuestButtonComponent("Войти", "Зарегистрироваться", GuiApp.WIDTH_WINDOWS, 50,200,10,250);
+        this.add(guestButtonComponent);      
     }
     
     

@@ -32,16 +32,17 @@ public class GuestButtonComponent extends JPanel{
      * @param buttonWidth ширина кнопки
      */
     
-    public GuestButtonComponent(String text, String text2, int widthWindow, int heightPanel,int left, int between, int buttonWidth) {
-        initComponents(text, text2, widthWindow, heightPanel, left, between, buttonWidth);
+    public GuestButtonComponent(String text1, String text2, int widthWindow, int heightPanel,int left, int between, int buttonWidth) {
+        initComponents(text1, text2, widthWindow, heightPanel, left, between, buttonWidth);
     }
 
-    private void initComponents(String text, String text2, int widthWindow, int heightPanel,int left, int between, int buttonWidth) {
+    private void initComponents(String text1, String text2, int widthWindow, int heightPanel,int left, int between, int buttonWidth) {
         this.setPreferredSize(new Dimension(widthWindow, heightPanel));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        button = new JButton(text);
+        this.add(Box.createRigidArea(new Dimension(left, 27)));
+        button = new JButton(text1);
         button.setPreferredSize(new Dimension(buttonWidth, 27));
         button.setMaximumSize(button.getPreferredSize());
         button.setMinimumSize(button.getPreferredSize());
