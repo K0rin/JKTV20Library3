@@ -5,6 +5,7 @@
  */
 package app.mycomponents;
 
+import app.GuiApp;
 import entity.Autor;
 import entity.Book;
 import facade.AutorFacade;
@@ -61,15 +62,16 @@ public class ListBooksComponent extends JPanel{
             caption.setAlignmentY(TOP_ALIGNMENT);
             caption.setFont(new Font("Tahoma",0,12));
             this.add(caption);
-            this.add(Box.createRigidArea(new Dimension(5, 0)));
+            this.add(Box.createRigidArea(new Dimension(25, 0)));
             list = new JList<>();
             list.setModel(getListModel());
             list.setCellRenderer(createListBooksRenderer());
             list.setSelectionMode (ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             list.setLayoutOrientation(JList.HEIGHT);
-            this.add(list);
+//            this.add(list);
+            
             JScrollPane scrollPane = new JScrollPane(list);
-            scrollPane.setPreferredSize(new Dimension(listWidth, 120));
+            scrollPane.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOWS-20, heightPanel));
             scrollPane.setMaximumSize(scrollPane.getPreferredSize());
             scrollPane.setMinimumSize(scrollPane.getPreferredSize());
             scrollPane.setAlignmentX(LEFT_ALIGNMENT);
@@ -93,23 +95,23 @@ public class ListBooksComponent extends JPanel{
             list.setCellRenderer(createListBooksRenderer());
             list.setSelectionMode (ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             list.setLayoutOrientation(JList.HEIGHT);
-
-            JScrollPane scrollPane = new JScrollPane(list);
-            scrollPane.setPreferredSize(new Dimension(listWidth, 120));
-            scrollPane.setMaximumSize(scrollPane.getPreferredSize());
-            scrollPane.setMinimumSize(scrollPane.getPreferredSize());
-            scrollPane.setAlignmentX(LEFT_ALIGNMENT);
-            scrollPane.setAlignmentY(TOP_ALIGNMENT);
-            this.add(scrollPane);
-           }   
+        } 
+//            JScrollPane scrollPane = new JScrollPane(list);
+//            scrollPane.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOWS-20, 120));
+//            scrollPane.setMaximumSize(scrollPane.getPreferredSize());
+//            scrollPane.setMinimumSize(scrollPane.getPreferredSize());
+//            scrollPane.setAlignmentX(LEFT_ALIGNMENT);
+//            scrollPane.setAlignmentY(TOP_ALIGNMENT);
+//            this.add(scrollPane);
+             
     }
 
-    private ListModel<Book> getListModel() {        
+    public ListModel<Book> getListModel() {        
         return getListModel(false);
     }
     
-    ListModel<Book> getListModel(boolean allBooks) {
-        BookFacade bookFacade = new BookFacade(Book.class);
+    public ListModel<Book> getListModel(boolean allBooks) {
+        BookFacade bookFacade = new BookFacade();
         List<Book> books=null;
         if(allBooks){
             books = bookFacade.findAll();

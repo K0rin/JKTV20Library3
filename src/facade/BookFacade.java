@@ -19,8 +19,8 @@ public class BookFacade extends AbstractFacade<Book>{
     
     private EntityManager em;
     
-    public BookFacade(Class<Book> entityClass) {
-        super(entityClass);
+    public BookFacade() {
+        super(Book.class);
         Singleton singleton = Singleton.getInstance();
         em = singleton.getEntityManager();
     }

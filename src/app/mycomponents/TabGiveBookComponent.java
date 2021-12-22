@@ -112,8 +112,8 @@ public class TabGiveBookComponent extends JPanel{
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                HistoryFacade historyFacade = new HistoryFacade(History.class);
-                BookFacade bookFacade = new BookFacade(Book.class);
+                HistoryFacade historyFacade = new HistoryFacade();
+                BookFacade bookFacade = new BookFacade();
                 List<Book> books = listBooksComponent.getJList().getSelectedValuesList();
                 if(books.isEmpty()){
                     infoComponent.getInfo().setText("вы не выбрали книги");
@@ -150,7 +150,7 @@ public class TabGiveBookComponent extends JPanel{
     
     public ComboBoxModel<Reader> addComboBoxModelReader(){
         infoComponent.getInfo().setText("");
-        ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+        ReaderFacade readerFacade = new ReaderFacade();
         List<Reader> readers = readerFacade.findAll();
         DefaultComboBoxModel<Reader> defaultComboBoxModel = new DefaultComboBoxModel<>();
         for (Reader reader : readers) {
@@ -163,7 +163,7 @@ public class TabGiveBookComponent extends JPanel{
     }
     
     public ListModel<Book> getListBookModel() {
-        BookFacade bookFacade = new BookFacade(Book.class);
+        BookFacade bookFacade = new BookFacade();
         List<Book> books = bookFacade.findEnabledBook();
         DefaultListModel<Book> defaultListModel = new DefaultListModel<>();
         for (Book book : books) {

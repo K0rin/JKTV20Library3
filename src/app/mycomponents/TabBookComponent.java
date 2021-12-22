@@ -94,7 +94,7 @@ public class TabBookComponent extends JPanel{
                     return;
                 }
                 book.setAuthor(bookAuthors);
-                BookFacade bookFacade = new BookFacade(Book.class);
+                BookFacade bookFacade = new BookFacade();
                 try {
                    bookFacade.create(book);
                    infoComponent1.getInfo().setText("ОК");

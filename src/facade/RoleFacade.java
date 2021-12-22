@@ -5,7 +5,9 @@
  */
 package facade;
 
-import entity.Autor;
+import entity.Reader;
+import entity.Role;
+import entity.User;
 import javax.persistence.EntityManager;
 import tools.Singleton;
 
@@ -13,12 +15,11 @@ import tools.Singleton;
  *
  * @author pupil
  */
-public class AutorFacade extends AbstractFacade<Autor>{
-    
+public class RoleFacade extends AbstractFacade<Role>{
     private EntityManager em;
     
-    public AutorFacade() {
-        super(Autor.class);
+    public RoleFacade() {
+        super(Role.class);
         Singleton singleton = Singleton.getInstance();
         em = singleton.getEntityManager();
     }

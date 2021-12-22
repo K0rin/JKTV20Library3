@@ -35,10 +35,10 @@ import java.util.Set;
  */
 public class App {
     Scanner scanner = new Scanner(System.in);
-    private BookFacade bookFacade = new BookFacade(Book.class);
-    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
-    private AutorFacade authorFacade = new AutorFacade(Autor.class);
-    private HistoryFacade historyFacade = new HistoryFacade(History.class);
+    private BookFacade bookFacade = new BookFacade();
+    private ReaderFacade readerFacade = new ReaderFacade();
+    private AutorFacade authorFacade = new AutorFacade();
+    private HistoryFacade historyFacade = new HistoryFacade();
     Keeping keeper;
     //Keeping keeper = new File_Keeper();
     private Date LocalDate;
