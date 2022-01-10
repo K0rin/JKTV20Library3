@@ -23,16 +23,29 @@ public class EditorComponent extends JPanel{
     private JTextField editor;
     
     public EditorComponent(String text, int widthWindow, int heightPanel, int editorWidth) {
-        initComponents(text, widthWindow, heightPanel, editorWidth);
+        initComponents(text, widthWindow, heightPanel, 0, editorWidth);
+    }
+    /**
+     * Компоненты
+     * @param text - текст слева от редактора
+     * @param widthWindow  - ширина компонента обычно, равно ширине окна
+     * @param heightPanel  - высота панели
+     * @param left - отступ от левого края окна до редактора. Ширина лейбла
+     * @param editorWidth  - ширина редактора
+     */
+    
+    public EditorComponent(String text, int widthWindow, int heightPanel, int left, int editorWidth) {
+        initComponents(text, widthWindow, heightPanel, left, editorWidth);
     }
 
-    private void initComponents(String text, int widthWindow, int heightPanel, int editorWidth) {
+    private void initComponents(String text, int widthWindow, int heightPanel, int left, int editorWidth) {
         this.setPreferredSize(new Dimension(widthWindow, heightPanel));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 //        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         caption = new JLabel(text);
+        
         caption.setPreferredSize(new Dimension(widthWindow/3, heightPanel));
         caption.setMinimumSize(caption.getPreferredSize());
         caption.setMaximumSize(caption.getPreferredSize());

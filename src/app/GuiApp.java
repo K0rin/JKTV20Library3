@@ -49,6 +49,8 @@ public class GuiApp extends JFrame{
     public static final int WIDTH_WINDOWS = 600;
     public static final int HEIGHT_WINDOWS = 450;
     private GuestComponent guestComponent;
+    private static String role;
+    private static User user;
     GuestButtonComponent guestButtonComponent;
     private TabAddReaderComponents addReaderComponents;
     private UserFacade userFacade = new UserFacade();
@@ -112,19 +114,46 @@ public class GuiApp extends JFrame{
         guestButtonComponent.getButton1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                int widthWindows = 350;
+                int heightWindows = 260;
                 JDialog dialogLogin = new JDialog(guiApp, "Введите логин и пароль", Dialog.ModalityType.DOCUMENT_MODAL);
-                dialogLogin.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOWS, 300));
+                dialogLogin.setPreferredSize(new Dimension(400, 300));
                 dialogLogin.setMaximumSize(dialogLogin.getPreferredSize());
                 dialogLogin.setMinimumSize(dialogLogin.getPreferredSize());
                 dialogLogin.setLocationRelativeTo(null);
+                CaptionComponent captionComponent = new CaptionComponent("Введите логин и пароль", 400, 27);
+                InfoComponent infoComponent = new InfoComponent("", widthWindows, 27);
                 dialogLogin.getContentPane().setLayout(new BoxLayout(dialogLogin.getContentPane(), BoxLayout.Y_AXIS));
-                EditorComponent loginComponent = new EditorComponent("login", GuiApp.WIDTH_WINDOWS, 27, 200);
-                EditorComponent passwordComponent = new EditorComponent("password", GuiApp.WIDTH_WINDOWS, 27, 200);
-                ButtonComponent enterComponent = new ButtonComponent("Войти", GuiApp.WIDTH_WINDOWS, 27, 200, 100);
-                
-                dialogLogin.getContentPane().add(loginComponent);
+                EditorComponent loginComponent = new EditorComponent("login", 400, 27, 80, 200);
+                EditorComponent passwordComponent = new EditorComponent("password", 400, 27, 80, 200);
+                ButtonComponent enterComponent = new ButtonComponent("Войти", 400, 27, 85, 200);
+                dialogLogin.getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
+                dialogLogin.getContentPane().add(captionComponent);
+                dialogLogin.getContentPane().add(infoComponent);
+                dialogLogin.getContentPane().add(Box.createRigidArea(new Dimension(0,5)));
+                dialogLogin.getContentPane().add(loginComponent);                
                 dialogLogin.getContentPane().add(passwordComponent);
+                dialogLogin.getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
                 dialogLogin.getContentPane().add(enterComponent);
+                enterComponent.getButton().addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        User user = userFacade.find(loginComponent.getEditor().getText().trim());
+                        if(user == null){
+                            infoComponent.getInfo().setText("Нет такого пользователя");
+                            return;
+                        }
+                        if(!user.getPassword().equals(passwordComponent.getEditor().getText().trim())){
+                            infoComponent.getInfo().setText("Нет такого пользователя или неверный пароль");
+                            return;
+                        }
+                        GuiApp.user = user;
+                        String role = userRolesFacade.topRole(user);
+                        GuiApp.role = role;                        
+                        dialogLogin.setVisible(false);
+                        dialogLogin.dispose();                        
+                    }
+                });
                 dialogLogin.pack();
                 dialogLogin.setVisible(true);
                 
