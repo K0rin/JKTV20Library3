@@ -8,8 +8,8 @@ package app;
 import app.mycomponents.ButtonComponent;
 import app.mycomponents.CaptionComponent;
 import app.mycomponents.EditorComponent;
-import app.mycomponents.GuestButtonComponent;
-import app.mycomponents.GuestComponent;
+import app.mycomponents.guest.GuestButtonComponent;
+import app.mycomponents.guest.GuestComponent;
 import app.mycomponents.InfoComponent;
 import app.mycomponents.ListAuthorsComponent;
 import app.mycomponents.TabAddReaderComponents;
@@ -51,6 +51,7 @@ public class GuiApp extends JFrame{
     private GuestComponent guestComponent;
     private static String role;
     private static User user;
+    private InfoComponent infoTopComponent;
     GuestButtonComponent guestButtonComponent;
     private TabAddReaderComponents addReaderComponents;
     private UserFacade userFacade = new UserFacade();
@@ -108,6 +109,8 @@ public class GuiApp extends JFrame{
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        infoTopComponent = new InfoComponent("", WIDTH_WINDOWS, 27);
+        this.add(infoTopComponent);
         guestComponent = new GuestComponent();
         guestButtonComponent = new GuestButtonComponent("Войти", "Зарегистрироваться", GuiApp.WIDTH_WINDOWS, 50,100,10,200);
         this.add(guestButtonComponent);
@@ -149,9 +152,18 @@ public class GuiApp extends JFrame{
                         }
                         GuiApp.user = user;
                         String role = userRolesFacade.topRole(user);
-                        GuiApp.role = role;                        
+                        GuiApp.role = role;
+                        infoTopComponent.getInfo().setText("Hello "+user.getReader().getFirstname());
                         dialogLogin.setVisible(false);
-                        dialogLogin.dispose();                        
+                        dialogLogin.dispose();
+                        if("READER".equals(GuiApp.role)){
+                            guiApp.getContentPane().remove(guestComponent);
+                            guiApp.getContentPane().remove(guestButtonComponent);
+                            addReaderComponents = new TabAddReaderComponents(GuiApp.WIDTH_WINDOWS);
+                            guiApp.getContentPane().add(addReaderComponents);
+                            guiApp.repaint();
+                            guiApp.revalidate();
+                        }
                     }
                 });
                 dialogLogin.pack();

@@ -6,7 +6,13 @@
 package app.mycomponents;
 
 import entity.Reader;
+import entity.Role;
+import entity.User;
+import entity.UserRole;
 import facade.ReaderFacade;
+import facade.RoleFacade;
+import facade.UserFacade;
+import facade.UserRolesFacade;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,8 +76,10 @@ public class TabAddReaderComponents extends JPanel{
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                
+                User user = new User();
                 Reader reader = new Reader();
+                UserRole userRole = new UserRole();
+                Role role = new Role();
                 if(nameComponent.getEditor().getText().isEmpty()){
                     infoComponent1.getInfo().setText("Введите имя читателя");
                     return;
@@ -89,12 +97,33 @@ public class TabAddReaderComponents extends JPanel{
                     return;
                 }
                 reader.setPhone(phoneComponent.getEditor().getText());
+                if(loginComponent.getEditor().getText().isEmpty()){
+                    infoComponent1.getInfo().setText("Введите login читателя");
+                    return;
+                }
+                user.setLogin(loginComponent.getEditor().getText());
+                if(passwordComponent.getEditor().getText().isEmpty()){
+                    infoComponent1.getInfo().setText("Введите password читателя");
+                    return;
+                }
+                user.setPassword(passwordComponent.getEditor().getText());
+                user.setReader(reader);
+                RoleFacade roleFacade = new RoleFacade();
+                
+                userRole.setUserId(user);
+                userRole.setRoleId(roleFacade.find((long)3));
+                
                 ReaderFacade readerFacade = new ReaderFacade();
+                UserFacade userFacade = new UserFacade();
+                UserRolesFacade userRolesFacade = new UserRolesFacade();
                 try {
-                   readerFacade.create(reader);
+                   readerFacade.create(reader);                   
+                   userFacade.create(user);
+                   userRolesFacade.create(userRole);
                    infoComponent1.getInfo().setText("ОК");
                    nameComponent.getEditor().setText("");
                    lastName.getEditor().setText("");
+                   
                    phoneComponent.getEditor().setText("");
                 } catch (Exception e) {
                    infoComponent1.getInfo().setText("Error");

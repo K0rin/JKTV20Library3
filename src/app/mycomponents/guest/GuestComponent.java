@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app.mycomponents;
+package app.mycomponents.guest;
 
 import app.GuiApp;
+import app.mycomponents.ListBooksComponent;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
