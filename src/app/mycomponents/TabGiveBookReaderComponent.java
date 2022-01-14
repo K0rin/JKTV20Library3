@@ -41,7 +41,7 @@ import javax.swing.ListModel;
  *
  * @author pupil
  */
-public class TabGiveBookComponent extends JPanel{   
+public class TabGiveBookReaderComponent extends JPanel{   
 
     private InfoComponent infoComponent;
     private CaptionComponent captionComponent;
@@ -56,7 +56,7 @@ public class TabGiveBookComponent extends JPanel{
 //        initComponent(widthPanel);
 //    }
 
-    public TabGiveBookComponent(int widthPanel, ComboBoxModel comboBoxModel, ListBooksComponent listBooksComponent) {
+    public TabGiveBookReaderComponent(int widthPanel, ComboBoxModel comboBoxModel, ListBooksComponent listBooksComponent) {
         this.comboBoxModel = comboBoxModel;
         this.listBooksComponent = listBooksComponent;
         initComponents(widthPanel);

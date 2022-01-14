@@ -159,8 +159,10 @@ public class GuiApp extends JFrame{
                         if("READER".equals(GuiApp.role)){
                             guiApp.getContentPane().remove(guestComponent);
                             guiApp.getContentPane().remove(guestButtonComponent);
-                            addReaderComponents = new TabAddReaderComponents(GuiApp.WIDTH_WINDOWS);
-                            guiApp.getContentPane().add(addReaderComponents);
+                            JTabbedPane jTabbedPane = new JTabbedPane();
+                            TabLibrarerComponent tabLibrarerComponent = new TabLibrarerComponent(GuiApp.WIDTH_WINDOWS);
+                            jTabbedPane.addTab("Читатель", tabLibrarerComponent);
+                            guiApp.getContentPane().add(jTabbedPane);
                             guiApp.repaint();
                             guiApp.revalidate();
                         }

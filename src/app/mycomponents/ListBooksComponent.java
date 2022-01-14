@@ -95,6 +95,14 @@ public class ListBooksComponent extends JPanel{
             list.setCellRenderer(createListBooksRenderer());
             list.setSelectionMode (ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             list.setLayoutOrientation(JList.HEIGHT);
+            
+            JScrollPane scrollPane = new JScrollPane(list);
+            scrollPane.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOWS-20, 120));
+            scrollPane.setMaximumSize(scrollPane.getPreferredSize());
+            scrollPane.setMinimumSize(scrollPane.getPreferredSize());
+            scrollPane.setAlignmentX(LEFT_ALIGNMENT);
+            scrollPane.setAlignmentY(TOP_ALIGNMENT);
+            this.add(scrollPane);
         } 
 //            JScrollPane scrollPane = new JScrollPane(list);
 //            scrollPane.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOWS-20, 120));
